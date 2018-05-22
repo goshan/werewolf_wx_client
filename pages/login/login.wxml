@@ -1,0 +1,14 @@
+<!--index.wxml-->
+<page>
+<view class="nav">
+  <view class="logo-view"><image class="logo" src="../../assets/logo.png" mode="aspectFill"></image></view>
+</view>
+<image class="bg-image" src="../../assets/game_bg.jpg" mode="top"></image>
+<view class="container">
+  <view class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    <button bindtap="login" type="primary" size="mini" loading="true"> 以此账号进入游戏 </button>
+  </view>
+</view>
+</page>

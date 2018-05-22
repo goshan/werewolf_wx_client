@@ -1,0 +1,12 @@
+{
+  "pages":[
+    "pages/login/login",
+    "pages/game/game"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#030000",
+    "navigationBarTitleText": "goshan狼人杀助手",
+    "navigationBarTextStyle":"white"
+  }
+}

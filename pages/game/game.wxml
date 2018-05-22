@@ -1,0 +1,33 @@
+<!--logs.wxml-->
+<page>
+<view class="nav">
+  <image class="avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+  <view class="logo-view"><image class="logo" src="../../assets/logo.png" mode="aspectFill"></image></view>
+  <image class="avatar" src="" mode="cover"></image>
+</view>
+<image class="bg-image" src="../../assets/game_bg.jpg" mode="top"></image>
+<view class="container">
+  <view class="ope-panel">
+    <view class="notice">
+      <view class="status pull-left">
+        第
+        <span class="status-round">0</span>
+        天
+        <span class="status-turn">查看身份</span>
+      </view>
+      <view class="setting pull-right">
+        <button class="btn-prm" size="mini">查看板子</button>
+      </view>
+    </view>
+    <view class="ope-player">
+      <button class="btn-warn pull-left" size="default">查看身份</button>
+      <button class="btn-warn pull-right" size="default">使用技能</button>
+    </view>
+    <view class="tips">{{tips}}</view>
+    <view wx:if="{{showing_tips}}" class="panel-finish"><a class="btn btn-default hidden" href="#">执行</a></view>
+  </view>
+  <block wx:for="{{players}}" wx:key="pos">
+    <text class="log-item">{{index + 1}}. {{log}}</text>
+  </block>
+</view>
+</page>
