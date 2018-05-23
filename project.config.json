@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -12,8 +12,8 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.0.4",
-	"appid": "touristappid",
-	"projectname": "wolf_test",
+	"appid": "wx73b7e5f3830eca4a",
+	"projectname": "werewolf",
 	"condition": {
 		"search": {
 			"current": -1,

@@ -1,19 +1,23 @@
-const formatTime = date => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+const socketSubscribe = (channel, openid) => {
+  const identifier = JSON.stringify({
+    channel: channel,
+    openid: openid
+  })
+  const data = JSON.stringify({
+    command: "subscribe",
+    identifier: identifier
+  })
+  wx.sendSocketMessage({
+    data: data
+  })
 }
 
-const formatNumber = n => {
-  n = n.toString()
-  return n[1] ? n : '0' + n
+const socketListen = (channel, fallback) => {
+  wx.onSocketMessage(res => {
+    if(JSON.parse(res).identifier)
+  })
 }
 
 module.exports = {
-  formatTime: formatTime
+  socketSubscribe: socketSubscribe
 }
