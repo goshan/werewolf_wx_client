@@ -1,5 +1,6 @@
 //index.js
 //获取应用实例
+const url = require('../../utils/url.js')
 const app = getApp()
 
 Page({
@@ -65,14 +66,17 @@ Page({
       // update user info in server
       wx.request({
         method: "post",
-        url: app.config.requestProtocol+"://"+app.config.host+"/wx/info",
+        url: url.request(app.config)+"/wx/info",
         data: {
-          openid: wx.getStorageSync('session').openid,
-          name: userInfo.nickName
+          token: wx.getStorageSync('token'),
+          name: userInfo.nickName,
+          image: userInfo.avatarUrl
         },
         success: res => {
-          if (res.msg == "OK") {
-
+          if (res.data.msg != "OK") {
+            wx.showToast({
+              title: "更新信息失败"
+            })
           }
         }
       })

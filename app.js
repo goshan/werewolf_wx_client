@@ -1,4 +1,5 @@
 //app.js
+const url = require('./utils/url.js')
 
 App({
   onLaunch: function () {
@@ -8,25 +9,23 @@ App({
         wx.login({
           success: res => {
             // 发送 res.code 到后台换取 openId, sessionKey, unionId
-            if (res.errMsg == "login:ok") {
-              wx.request({
-                method: "get",
-                url: this.config.requestProtocol+"://"+this.config.host+"/wx/login",
-                data: {
-                  code: res.code
-                },
-                success: res => {
-                  if (res.data.openid) {
-                    wx.setStorageSync('session', res.data)
-                  }
-                  else {
-                    wx.showToast({
-                      title: "服务器通信失败"
-                    })
-                  }
+            wx.request({
+              method: "get",
+              url: url.request(this.config)+"/wx/login",
+              data: {
+                code: res.code
+              },
+              success: res => {
+                if (res.data.token) {
+                  wx.setStorageSync('token', res.data.token)
                 }
-              })
-            }
+                else {
+                  wx.showToast({
+                    title: "服务器通信失败"
+                  })
+                }
+              }
+            })
           }
         })
       }

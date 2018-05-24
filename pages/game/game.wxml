@@ -10,10 +10,7 @@
   <view class="ope-panel">
     <view class="notice">
       <view class="status pull-left">
-        第
-        <span class="status-round">0</span>
-        天
-        <span class="status-turn">查看身份</span>
+        第{{status.round}}天 {{status.turn}}
       </view>
       <view class="setting pull-right">
         <button class="btn-prm" size="mini">查看板子</button>
@@ -26,8 +23,16 @@
     <view class="tips">{{tips}}</view>
     <view wx:if="{{showing_tips}}" class="panel-finish"><a class="btn btn-default hidden" href="#">执行</a></view>
   </view>
-  <block wx:for="{{players}}" wx:key="pos">
-    <text class="log-item">{{index + 1}}. {{log}}</text>
-  </block>
+  <view class="players-panel">
+    <block wx:for="{{players}}" wx:for-item="player" wx:key="index">
+      <view class="player pull-left">
+        <button class="seat">
+          <text class="pos">{{player.pos}}</text>
+          <image class="avatar" src="{{player.image || 'seat.png'}}"></image>
+        </button>
+        <text class="name">{{player.name || "--"}}</text>
+      </view>
+    </block>
+  </view>
 </view>
 </page>
