@@ -66,9 +66,9 @@ Page({
       // update user info in server
       wx.request({
         method: "post",
-        url: url.request(app.config)+"/wx/info",
+        url: url.request(app.config)+"/info",
         data: {
-          token: wx.getStorageSync('token'),
+          token: wx.getStorageSync('token').token,
           name: userInfo.nickName,
           image: userInfo.avatarUrl
         },

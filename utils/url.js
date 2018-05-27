@@ -1,5 +1,5 @@
 const request = function(config) {
-  return config.requestProtocol+"://"+config.host
+  return config.requestProtocol+"://"+config.host+"/wx"
 }
 
 const socket = function(config) {
@@ -14,10 +14,10 @@ const image = function(config, url) {
     return url
   }
   else if(url.startsWith("/")) {
-    return request(config)+url
+    return config.requestProtocol+"://"+config.host+"/img"+url
   }
   else {
-    return request(config)+"/"+url
+    return config.requestProtocol+"://"+config.host+"/img/"+url
   }
 }
 

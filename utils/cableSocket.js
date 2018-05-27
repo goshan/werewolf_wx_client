@@ -1,9 +1,12 @@
 var socketRetryInterval = null
 var socketUrl = null
+var socketToken = null
 
 const connect = (url, channels, token) => {
   console.log("start to connect socket")
   socketUrl = url
+  socketToken = token
+
   wx.connectSocket({
     url: socketUrl,
     method:"GET"
@@ -11,7 +14,7 @@ const connect = (url, channels, token) => {
 
   wx.onSocketOpen(res => {
     for (var i in channels) {
-      subscribe(channels[i], token)
+      subscribe(channels[i])
     }
   })
 
@@ -54,15 +57,28 @@ const listen = (channel, fallback) => {
 }
 
 const send = (channel, message) => {
-
+  console.log("send data:")
+  console.log(message)
+  var identifier = JSON.stringify({
+    channel: channel,
+    f: socketToken
+  })
+  var data = JSON.stringify({
+    command: "message",
+    identifier: identifier,
+    data: JSON.stringify(message)
+  })
+  wx.sendSocketMessage({
+    data: data
+  })
 }
 
 // private
 
-const subscribe = (channel, token) => {
+const subscribe = (channel) => {
   var identifier = JSON.stringify({
     channel: channel,
-    f: token
+    f: socketToken
   })
   var data = JSON.stringify({
     command: "subscribe",

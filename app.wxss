@@ -14,7 +14,6 @@ page {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  z-index: 999;
 }
 
 .nav .logo-view {
@@ -42,7 +41,7 @@ page {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
+  z-index: -1;
 }
 
 .container {
@@ -70,4 +69,35 @@ page {
 .btn-warn {
   color: white;
   background-color: #f0ad4e;
+}
+
+.btn-danger {
+  color: white;
+  background-color: #d9534f;
+}
+
+.btn-purple {
+  color: white;
+  background-color: #805EAD;
+}
+
+.btn-success {
+  color: white;
+  background-color: #5cb85c;
+}
+
+.btn-info {
+  color: white;
+  background-color: #5bc0de;
+}
+
+button.btn{
+  font-size: 30rpx;
+  height: 65rpx;
+  line-height: 65rpx;
+}
+button.btn[size=mini] {
+  font-size: 22rpx;
+  height: 45rpx;
+  line-height: 45rpx;
 }

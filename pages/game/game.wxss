@@ -1,8 +1,77 @@
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal .dialog {
+  background-color: white;
+  border-radius: 20rpx;
+  padding: 20rpx 50rpx 0 50rpx;
+}
+
+.modal .dialog .role {
+  height: 700rpx;
+  width: 550rpx;
+  font-size: 35rpx;
+}
+
+.modal .dialog .role .role-txt {
+  font-size: 50rpx;
+  font-weight: bold;
+  color: #e61713;
+  margin-left: 10rpx;
+}
+
+.modal .dialog .role .role-img {
+  height: 466.8rpx;
+  width: 328.8rpx;
+  display: flex;
+  margin: 60rpx auto;
+}
+
+.modal .dialog .admin {
+  height: 300rpx;
+  width: 585rpx;
+}
+
+.modal .dialog .admin .group {
+  margin: 20rpx 0;
+}
+
+.modal .dialog .admin button {
+  margin: 0 10rpx;
+}
+
+.modal .dialog .skill {
+  width: 500rpx;
+  font-size: 55rpx;
+}
+
+.modal .dialog .btn {
+  height: 99rpx;
+  width: 100%;
+  border-radius: 0;
+  backtound-color: white;
+  color: #51A938;
+  border-top: 1rpx solid #cdcdcd;
+  text-align: center;
+  line-height: 99rpx;
+}
+
 .ope-panel {
   background-color: rgba(250,235,215,0.5);
   border-radius: 15rpx;
-  z-index: 99;
   width: 100%;
+  height: 340rpx;
   padding: 20rpx 0;
 }
 
@@ -16,18 +85,24 @@
 }
 
 .ope-panel .ope-player {
-  margin: 20rpx;
+  margin: 20rpx 20rpx 0rpx 20rpx;
 }
 
 .ope-panel .tips {
   width: 100%;
-  height: 90rpx;
+  text-align: center;
+  font-weight: bold;
+  color: #a94442
+}
+
+.ope-panel .tip-finish {
+  width: 140rpx;
+  margin-top: 15rpx;
 }
 
 .players-panel {
   width: 100%;
   margin-top: 50rpx;
-  z-index: 99;
 }
 
 .players-panel .player {
@@ -50,7 +125,7 @@
   width: 0; 
   height: 0; 
   border-bottom: 150rpx solid transparent;
-  border-left: 150rpx solid green;
+  border-left: 150rpx solid #5bc0de;
 }
 
 .players-panel image {
@@ -67,7 +142,7 @@
   font-size: 30rpx;
   font-weight: bold;
   color: white;
-  z-index: 99;
+  z-index: 9;
 }
 
 .players-panel .pos {
@@ -75,4 +150,51 @@
   top: 0;
   left: 15rpx;
   line-height: 50rpx;
+}
+
+
+
+/* seat button style */
+
+/** seat button style(throw) **/
+.players-panel .throw button {
+  background-color: #337ab7;
+}
+.players-panel .throw button:after {
+  border-left-color: #337ab7;
+}
+
+/** seat button style(confirm) **/
+.players-panel .confirm button {
+  background-color: #f0ad4e;
+}
+.players-panel .confirm button:after {
+  border-left-color: #f0ad4e;
+}
+
+/** seat button style(selected) **/
+.players-panel .selected button {
+  background-color: #fff;
+}
+.players-panel .selected button:after {
+  border-left-color: #fff;
+}
+.players-panel .selected .pos {
+  color: #000;
+}
+
+/** seat button style(dead) **/
+.players-panel .dead button {
+  background: transparent !important;
+}
+.players-panel .dead button:after {
+  border-left-color: #cdcdcd !important;
+}
+.players-panel .dead image {
+  filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+  filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+}
+.players-panel .dead .pos {
+  color: #000;
 }

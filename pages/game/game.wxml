@@ -1,11 +1,104 @@
 <!--logs.wxml-->
 <page>
+<view wx:if="{{showModal}}" class="modal">
+  <view class="dialog">
+    <view wx:if="{{modalType == 'role'}}" class="role">
+      你的身份是<text class="role-txt">{{role.text}}</text>
+      <image class="role-img" src="{{role.image}}"></image>
+    </view>
+    <view wx:if="{{modalType == 'admin'}}" class="admin">
+      <view class="group">
+        <button size="mini" type="warn" bindtap="sendAdminSocket" data-action="stop_game" data-pos="villager">好人胜利</button>
+        <button size="mini" type="primary" bindtap="showSetting">更改配置</button>
+        <button size="mini" type="warn" bindtap="sendAdminSocket" data-action="stop_game" data-pos="wolf">狼人胜利</button>
+      </view>
+      <view class="group">
+        <button size="mini" class="pull-left" bindtap="sendAdminSocket" data-action="reset">重置</button>
+        <button size="mini" class="pull-right" bindtap="sendAdminSocket" data-action="deal">发牌</button>
+      </view>
+      <view class="group">
+        <button size="mini" bindtap="sendAdminSocket" data-action="night_info">昨夜信息</button>
+        <button size="mini" bindtap="sendAdminSocket" data-action="start">进入夜晚</button>
+        <button size="mini" bindtap="prepareThrow">玩家出局</button>
+      </view>
+    </view>
+    <view wx:if="{{modalType == 'skill'}}" class="skill">
+      <view class="message">{{modalMessage}}</view>
+      <view class="button pull-right">
+        <block wx:for="{{modalButtons}}" wx:for-item="button" wx:key="skill">
+          <button class="{{button.cssClass}}" size="mini" bindtap="dialogButtonClick" data-config="{{button.data}}">{{button.label}}</button>
+        </block>
+      </view>
+    </view>
+    <view wx:if="{{modalType == 'setting'}}" class="setting">
+      <view class="group">
+        <label>神民: </label>
+        <check-group bindchange="settingChange">
+          <label class="checkbox" wx:for="{{setting.god_roles}}" wx:for-item="role" wx:key="key">
+            <checkbox value="{{role.key}}" checked="{{role.checked}}"/>{{role.name}}
+          </label>
+        </check-group>
+      </view>
+      <view class="group">
+        <label>女巫解药</label>
+        <radio-group class="radio-group" bindchange="settingChange">
+          <label class="radio">
+            <radio value="could_first_night" checked="{{setting.witch_self_save == 'could_first_night'}}"/>仅第一夜可以自救
+          </label>
+          <label class="radio">
+            <radio value="never" checked="{{setting.witch_self_save == 'never'}}"/>不能自救
+          </label>
+          <label class="radio">
+            <radio value="always_could" checked="{{setting.witch_self_save == 'always_could'}}"/>可以自救
+          </label>
+        </radio-group>
+      </view>
+      <view class="group">
+        <label>平民</label>
+        <input type="number" confirm-type="done" bindconfirm="settingChange" value="{{setting.villager}}"/>
+      </view>
+      <view class="group">
+        <label>狼人</label>
+        <check-group bindchange="settingChange">
+          <label class="checkbox" wx:for="{{setting.wolf_roles}}" wx:for-item="role" wx:key="key">
+            <checkbox value="{{role.key}}" checked="{{role.checked}}"/>{{role.name}}
+          </label>
+        </check-group>
+        <label>+ 普通狼人</label>
+        <input type="number" confirm-type="done" bindconfirm="settingChange" value="{{setting.normal_wolf}}"/>
+      </view>
+      <view class="group">
+        <picker mode="selector" range="{{setting}}" value="setting.must_kill" bindchange="settingChange">
+          <view class="picker">
+            必死角色: {{array[index]}}
+          </view>
+        </picker>
+      </view>
+      <view class="group">
+        <label>胜利条件</label>
+        <radio-group class="radio-group" bindchange="settingChange">
+          <label class="radio">
+            <radio value="kill_side" checked="{{setting.win_cond == 'kill_side'}}"/>屠边
+          </label>
+          <label class="radio">
+            <radio value="kill_all" checked="{{setting.win_cond == 'kill_all'}}"/>屠城
+          </label>
+          <label class="radio">
+            <radio value="kill_god" checked="{{setting.win_cond == 'kill_god'}}"/>屠神
+          </label>
+        </radio-group>
+      </view>
+    </view>
+    <view wx:if="{{modalType == 'role' || modalType == 'admin'}}" class="btn" bindtap="hideModal">确定</view>
+    <view wx:else class="btn" bindtap="showSetting">确定</view>
+  </view>
+</view>
 <view class="nav">
-  <image class="avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-  <view class="logo-view"><image class="logo" src="../../assets/logo.png" mode="aspectFill"></image></view>
+  <image class="avatar" src="{{userInfo.avatarUrl}}" mode="cover" bindtap="showAdmin"></image>
+  <view class="logo-view"><image class="logo" src="/assets/logo.png" mode="aspectFill"></image></view>
   <image class="avatar" src="" mode="cover"></image>
 </view>
-<image class="bg-image" src="../../assets/game_bg.jpg" mode="top"></image>
+<image class="bg-image" src="/assets/game_bg.jpg" mode="top"></image>
 <view class="container">
   <view class="ope-panel">
     <view class="notice">
@@ -13,22 +106,22 @@
         第{{status.round}}天 {{status.turn}}
       </view>
       <view class="setting pull-right">
-        <button class="btn-prm" size="mini">查看板子</button>
+        <button class="btn btn-prm" size="mini" bindtap="checkRule">查看板子</button>
       </view>
     </view>
     <view class="ope-player">
-      <button class="btn-warn pull-left" size="default">查看身份</button>
-      <button class="btn-warn pull-right" size="default">使用技能</button>
+      <button class="btn btn-warn pull-left" size="default" bindtap="sendSocket" data-action="check_role">查看身份</button>
+      <button class="btn btn-warn pull-right" size="default" bindtap="sendSocket" data-action="skill_active">使用技能</button>
     </view>
-    <view class="tips">{{tips}}</view>
-    <view wx:if="{{showing_tips}}" class="panel-finish"><a class="btn btn-default hidden" href="#">执行</a></view>
+    <view class="tips">{{panelTip || ''}}</view>
+    <button wx:if="{{showTip}}" class="btn tip-finish" bindtap="useSkill">执行</button>
   </view>
   <view class="players-panel">
     <block wx:for="{{players}}" wx:for-item="player" wx:key="index">
-      <view class="player pull-left">
-        <button class="seat">
+      <view class="player pull-left {{player.status}} {{seatAction}} {{selected[index] ? 'selected' : ''}}">
+        <button class="seat" bindtap="{{ seatAction ? (seatAction == 'sit' ? 'sendSocket' : 'seatClick') : ''}}" data-action="sit" data-pos="{{player.pos}}">
           <text class="pos">{{player.pos}}</text>
-          <image class="avatar" src="{{player.image || 'seat.png'}}"></image>
+          <image class="avatar" src="{{player.image || '/assets/seat.png'}}"></image>
         </button>
         <text class="name">{{player.name || "--"}}</text>
       </view>
