@@ -34,8 +34,8 @@ App({
     userInfo: null
   },
   config: {
-    host: "127.0.0.1:3000",
-    requestProtocol: "http",
-    socketProtocol: "ws"
+    host: "werewolf.paqdan.net",
+    requestProtocol: "https",
+    socketProtocol: "wss"
   }
 })
