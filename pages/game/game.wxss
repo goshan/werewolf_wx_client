@@ -56,6 +56,19 @@
   font-size: 55rpx;
 }
 
+.modal .dialog .setting {
+  width: 600rpx;
+}
+
+.modal .dialog .setting checkbox-group {
+  display: block;
+}
+
+.modal .dialog .setting input {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .modal .dialog .btn {
   height: 99rpx;
   width: 100%;

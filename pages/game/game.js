@@ -32,6 +32,7 @@ Page({
     selected: {},
 
     // setting
+    god_list: [],
     setting: {
       god_roles: [
         {key: 'seer', name: "预言家", checked: false},
@@ -56,9 +57,14 @@ Page({
   },
 
   onLoad: function () {
+    var gods = [null]
+    for (var g in this.data.setting.god_roles) {
+      gods.push(this.data.setting.god_roles[g].name)
+    }
     this.setData({
       token: wx.getStorageSync('token'),
-      userInfo: app.globalData.userInfo
+      userInfo: app.globalData.userInfo,
+      god_list: gods
     })
 
     audio.init()
@@ -272,6 +278,38 @@ Page({
     this.hideModal()
   },
 
+  settingChange: function(e) {
+    if (e.currentTarget.id == "god_roles") {
+      var god_roles = this.data.setting.god_roles
+      for (var i in god_roles) {
+        god_roles[i].checked = e.detail.value.includes(god_roles[i].key)
+      }
+      this.updateSetting("god_roles", god_roles)
+    }
+    else if (e.currentTarget.id == "witch_self_save") {
+      this.updateSetting("witch_self_save", e.detail.value)
+    }
+    else if (e.currentTarget.id == "villager_cnt") {
+      this.updateSetting("villager", e.detail.value)
+    }
+    else if (e.currentTarget.id == "wolf_roles") {
+      var wolf_roles = this.data.setting.wolf_roles
+      for (var i in wolf_roles) {
+        wolf_roles[i].checked = e.detail.value.includes(wolf_roles[i].key)
+      }
+      this.updateSetting("wolf_roles", wolf_roles)
+    }
+    else if (e.currentTarget.id == "normal_wolf_cnt") {
+      this.updateSetting("normal_wolf", e.detail.value)
+    }
+    else if (e.currentTarget.id == "must_kill") {
+      this.updateSetting("must_kill", parseInt(e.detail.value))
+    }
+    else if (e.currentTarget.id == "win_cond") {
+      this.updateSetting("win_cond", e.detail.value)
+    }
+  },
+
   showSetting: function() {
     wx.request({
       method: "GET",
@@ -279,13 +317,78 @@ Page({
       data: {
         token: this.data.token.token
       },
-      success: data => {
-        console.log(data)
-        for (var r in data.god_roles) {
-          dfd
+      success: res => {
+        console.log(res)
+        // god_roles
+        var god_roles = this.data.setting.god_roles
+        for (var r in god_roles) {
+          god_roles[r].checked = res.data.god_roles.includes(god_roles[r].key)
         }
+        // wolf roles
+        var wolf_roles = this.data.setting.wolf_roles
+        for (var r in wolf_roles) {
+          wolf_roles[r].checked = res.data.wolf_roles.includes(wolf_roles[r].key)
+        }
+        this.setData({
+          setting: {
+            god_roles: god_roles,
+            wolf_roles: wolf_roles,
+            witch_self_save: res.data.witch_self_save,
+            villager: res.data.villager_cnt,
+            normal_wolf: res.data.normal_wolf_cnt,
+            must_kill: res.data.must_kill,
+            win_cond: res.data.win_cond
+          }
+        })
         this.showModal("setting")
       }
+    })
+  },
+
+  confirmSetting: function() {
+    var data = {
+      token: this.data.token.token,
+
+      gods: [],
+      witch_self_save: this.data.setting.witch_self_save,
+      villager: this.data.setting.villager,
+      wolves: [],
+      normal_wolf: this.data.setting.normal_wolf,
+      must_kill: this.data.setting.must_kill > 0 ? this.data.setting.god_roles[this.data.setting.must_kill-1].key : null,
+      win_cond: this.data.setting.win_cond
+    }
+    for (var i in this.data.setting.god_roles) {
+      if (this.data.setting.god_roles[i].checked) {
+        data.gods.push(this.data.setting.god_roles[i].key)
+      }
+    }
+    for (var i in this.data.setting.wolf_roles) {
+      if (this.data.setting.wolf_roles[i].checked) {
+        data.wolves.push(this.data.setting.wolf_roles[i].key)
+      }
+    }
+
+    wx.request({
+      method: "POST",
+      url: url.request(app.config)+"/update_setting",
+      data: data,
+      success: res => {
+        console.log(res)
+        this.hideModal()
+        if (res.data.msg != "success") {
+          wx.showToast({
+            title: "更新设定失败"
+          })
+        }
+      }
+    })
+  },
+
+  updateSetting: function(key, val) {
+    var setting = this.data.setting
+    setting[key] = val
+    this.setData({
+      setting: setting
     })
   },
 

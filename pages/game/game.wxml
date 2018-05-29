@@ -33,15 +33,15 @@
     <view wx:if="{{modalType == 'setting'}}" class="setting">
       <view class="group">
         <label>神民: </label>
-        <check-group bindchange="settingChange">
+        <checkbox-group id="god_roles" bindchange="settingChange">
           <label class="checkbox" wx:for="{{setting.god_roles}}" wx:for-item="role" wx:key="key">
             <checkbox value="{{role.key}}" checked="{{role.checked}}"/>{{role.name}}
           </label>
-        </check-group>
+        </checkbox-group>
       </view>
       <view class="group">
-        <label>女巫解药</label>
-        <radio-group class="radio-group" bindchange="settingChange">
+        <label>女巫解药: </label>
+        <radio-group class="radio-group" id="witch_self_save" bindchange="settingChange">
           <label class="radio">
             <radio value="could_first_night" checked="{{setting.witch_self_save == 'could_first_night'}}"/>仅第一夜可以自救
           </label>
@@ -54,29 +54,29 @@
         </radio-group>
       </view>
       <view class="group">
-        <label>平民</label>
-        <input type="number" confirm-type="done" bindconfirm="settingChange" value="{{setting.villager}}"/>
+        <label>平民: </label>
+        <input type="number" id="villager_cnt" confirm-type="done" bindconfirm="settingChange" value="{{setting.villager}}"/>
       </view>
       <view class="group">
         <label>狼人</label>
-        <check-group bindchange="settingChange">
+        <checkbox-group id="wolf_roles" bindchange="settingChange">
           <label class="checkbox" wx:for="{{setting.wolf_roles}}" wx:for-item="role" wx:key="key">
             <checkbox value="{{role.key}}" checked="{{role.checked}}"/>{{role.name}}
           </label>
-        </check-group>
-        <label>+ 普通狼人</label>
-        <input type="number" confirm-type="done" bindconfirm="settingChange" value="{{setting.normal_wolf}}"/>
+        </checkbox-group>
+        <label>+ 狼人: </label>
+        <input type="number" id="normal_wolf_cnt" confirm-type="done" bindconfirm="settingChange" value="{{setting.normal_wolf}}"/>
       </view>
       <view class="group">
-        <picker mode="selector" range="{{setting}}" value="setting.must_kill" bindchange="settingChange">
+        <picker id="must_kill" mode="selector" range="{{god_list}}" value="setting.must_kill" bindchange="settingChange">
           <view class="picker">
-            必死角色: {{array[index]}}
+            必死角色: {{god_list[setting.must_kill]}}
           </view>
         </picker>
       </view>
       <view class="group">
-        <label>胜利条件</label>
-        <radio-group class="radio-group" bindchange="settingChange">
+        <label>胜利条件: </label>
+        <radio-group class="radio-group" id="win_cond" bindchange="settingChange">
           <label class="radio">
             <radio value="kill_side" checked="{{setting.win_cond == 'kill_side'}}"/>屠边
           </label>
@@ -90,7 +90,7 @@
       </view>
     </view>
     <view wx:if="{{modalType == 'role' || modalType == 'admin'}}" class="btn" bindtap="hideModal">确定</view>
-    <view wx:else class="btn" bindtap="showSetting">确定</view>
+    <view wx:else class="btn" bindtap="confirmSetting">确定</view>
   </view>
 </view>
 <view class="nav">
