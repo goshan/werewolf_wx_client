@@ -90,7 +90,7 @@
       </view>
     </view>
     <view wx:if="{{modalType == 'role' || modalType == 'admin'}}" class="btn" bindtap="hideModal">确定</view>
-    <view wx:else class="btn" bindtap="confirmSetting">确定</view>
+    <view wx:if="{{modalType == 'setting'}}" class="btn" bindtap="confirmSetting">确定</view>
   </view>
 </view>
 <view class="nav">
@@ -118,10 +118,10 @@
   </view>
   <view class="players-panel">
     <block wx:for="{{players}}" wx:for-item="player" wx:key="index">
-      <view class="player pull-left {{player.status}} {{seatAction}} {{selected[index] ? 'selected' : ''}}">
+      <view class="player pull-left {{player.status}} {{seatAction}} {{player.selectable}} {{selected[index] ? 'selected' : ''}}">
         <button class="seat" bindtap="{{ seatAction ? (seatAction == 'sit' ? 'sendSocket' : 'seatClick') : ''}}" data-action="sit" data-pos="{{player.pos}}">
           <text class="pos">{{player.pos}}</text>
-          <image class="avatar" src="{{player.image || '/assets/seat.png'}}"></image>
+          <image class="avatar" src="{{player.selectable == 'unSelectable' ? '' : (player.image || '/assets/seat.png')}}"></image>
         </button>
         <text class="name">{{player.name || "--"}}</text>
       </view>

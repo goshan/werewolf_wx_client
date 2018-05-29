@@ -147,18 +147,18 @@ Page({
       seatSelect: data.select
     })
 
-    //if(typeof(data.only) != 'undefined' && data.only != null) {
-      //var players = this.data.players
-      //for (var p in players) {
-        //p.selectable = "unSelectable"
-      //}
-      //for(p in data.only) {
-        //players[p-1].selectable = ""
-      //}
-      //this.setData({
-        //players: players
-      //})
-    //}
+    if(typeof(data.only) != 'undefined' && data.only != null) {
+      var players = this.data.players
+      for (var i in players) {
+        players[i].selectable = "unSelectable"
+      }
+      for(var i in data.only) {
+        players[data.only[i]].selectable = ""
+      }
+      this.setData({
+        players: players
+      })
+    }
   },
   hidePanel: function(){
     this.setData({
@@ -234,7 +234,7 @@ Page({
       }
     }
     if (selected.length == 0) {
-      selected = null
+      selected = this.data.seatSelect == "single" ? null : []
     }
     else if (selected.length == 1) {
       selected = selected[0]
@@ -246,20 +246,22 @@ Page({
   seatClick: function(e) {
     var pos = e.currentTarget.dataset.pos
     var selected = this.data.selected
-    if (selected[pos]) {
-      selected[pos] = false
-    }
-    else {
-      if (this.data.seatSelect == "single") {
-        for(var s in selected) {
-          selected[s] = false
-        }
+    if (this.data.players[pos].selectable != "unSelectable") {
+      if (selected[pos]) {
+        selected[pos] = false
       }
-      selected[pos] = true
+      else {
+        if (this.data.seatSelect == "single") {
+          for(var s in selected) {
+            selected[s] = false
+          }
+        }
+        selected[pos] = true
+      }
+      this.setData({
+        selected: selected
+      })
     }
-    this.setData({
-      selected: selected
-    })
   },
 
   dialogButtonClick: function(e) {

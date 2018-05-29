@@ -177,12 +177,53 @@
   border-left-color: #337ab7;
 }
 
+/** seat button style(kill) **/
+.players-panel .kill button {
+  background-color: #d9534f;
+}
+.players-panel .kill button:after {
+  border-left-color: #d9534f;
+}
+
 /** seat button style(confirm) **/
 .players-panel .confirm button {
   background-color: #f0ad4e;
 }
 .players-panel .confirm button:after {
   border-left-color: #f0ad4e;
+}
+
+/** seat button style(poison) **/
+.players-panel .poison button {
+  background-color: #805EAD;
+}
+.players-panel .poison button:after {
+  border-left-color: #805EAD;
+}
+
+/** seat button style(guard) **/
+.players-panel .guard button {
+  background-color: #5cb85c;
+}
+.players-panel .guard button:after {
+  border-left-color: #5cb85c;
+}
+
+/** seat button style(lock) **/
+.players-panel .lock button {
+  background-color: #313ba9;
+}
+.players-panel .lock button:after {
+  border-left-color: #313ba9;
+}
+
+/** seat button style(exchange) **/
+.players-panel .exchange button {
+  background-color: #313ba9;
+}
+.players-panel .exchange button:after {
+  border-left-color: #313ba9;
+  border-left-color: #313ba9;
 }
 
 /** seat button style(selected) **/
@@ -194,6 +235,17 @@
 }
 .players-panel .selected .pos {
   color: #000;
+}
+
+/** seat button style(unSelectable) **/
+.players-panel .unSelectable button {
+  background: transparent;
+}
+.players-panel .unSelectable button:after {
+  border-left-color: #000;
+}
+.players-panel .unSelectable .pos {
+  color: #fff;
 }
 
 /** seat button style(dead) **/
