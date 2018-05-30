@@ -55,7 +55,7 @@
       </view>
       <view class="group">
         <label>平民: </label>
-        <input type="number" id="villager_cnt" confirm-type="done" bindconfirm="settingChange" value="{{setting.villager}}"/>
+        <input id="villager_cnt" confirm-type="done" bindconfirm="settingChange" value="{{setting.villager}}"/>
       </view>
       <view class="group">
         <label>狼人</label>
@@ -65,7 +65,7 @@
           </label>
         </checkbox-group>
         <label>+ 狼人: </label>
-        <input type="number" id="normal_wolf_cnt" confirm-type="done" bindconfirm="settingChange" value="{{setting.normal_wolf}}"/>
+        <input id="normal_wolf_cnt" confirm-type="done" bindconfirm="settingChange" value="{{setting.normal_wolf}}"/>
       </view>
       <view class="group">
         <picker id="must_kill" mode="selector" range="{{god_list}}" value="setting.must_kill" bindchange="settingChange">
@@ -98,7 +98,7 @@
   <view class="logo-view"><image class="logo" src="/assets/logo.png" mode="aspectFill"></image></view>
   <image class="avatar" src="" mode="cover"></image>
 </view>
-<image class="bg-image" src="/assets/game_bg.jpg" mode="top"></image>
+<image class="bg-image" src="https://werewolf.paqdan.net/img/game_bg.jpg" mode="top"></image>
 <view class="container">
   <view class="ope-panel">
     <view class="notice">

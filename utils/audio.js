@@ -1,3 +1,4 @@
+const url = require('./url.js')
 const socket = require('./cableSocket.js')
 
 const audio_config = {
@@ -5,13 +6,13 @@ const audio_config = {
     loop: false,
     next: false,
     bgm: {file: "day_bgm", volume: 0.3},
-    voice: {file: "day_voice"}
+    voice: {file: "day_start_voice"}
   },
   night: {
     loop: false,
     next: true,
     bgm: {file: "night_bgm", volume: 2},
-    voice: {file: "night_voice"}
+    voice: {file: "night_start_voice"}
   },
   over_wolf_win: {
     loop: false,
@@ -136,7 +137,7 @@ const end = function(key) {
 //private
 
 const setupAudio = function(audioContext, config, loop=false) {
-  audioContext.src = "/assets/audio/"+config.file+".mp3"
+  audioContext.src = app.config.requestProtocol+"://"+app.config.host+"/audio/"+config.file+".mp3"
   audioContext.loop = loop
   audioContext.volume = config.volume
   audioContext.obeyMuteSwitch = false

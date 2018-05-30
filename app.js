@@ -14,6 +14,7 @@ App({
             code: res.code
           },
           success: res => {
+            console.log(res.data)
             if (res.data.token) {
               wx.setStorageSync('token', {
                 token: res.data.token,

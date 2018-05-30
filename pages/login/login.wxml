@@ -3,7 +3,7 @@
 <view class="nav">
   <view class="logo-view"><image class="logo" src="../../assets/logo.png" mode="aspectFill"></image></view>
 </view>
-<image class="bg-image" src="../../assets/game_bg.jpg" mode="top"></image>
+<image class="bg-image" src="https://werewolf.paqdan.net/img/game_bg.jpg" mode="top"></image>
 <view class="container">
   <button wx:if="{{!hasUserInfo}}" type="primary" open-type="getUserInfo" bindgetuserinfo="getUserInfoFallback">游戏授权</button>
   <block wx:else>
