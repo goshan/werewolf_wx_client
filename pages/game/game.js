@@ -68,7 +68,9 @@ Page({
     })
 
     audio.init()
+  },
 
+  onShow: function() {
     socket.connect(url.socket(app.config), ["GameChannel"], this.data.token.token)
     socket.listen("GameChannel", data => {
       if (data.action == 'alert') {
@@ -97,6 +99,14 @@ Page({
         this.update(data)
       }
     })
+  },
+
+  onHide: function() {
+    socket.disconnect()
+  },
+
+  onUnload: function() {
+    socket.disconnect()
   },
 
   play: function(key) {

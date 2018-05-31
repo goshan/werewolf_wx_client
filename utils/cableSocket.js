@@ -1,11 +1,13 @@
 var socketRetryInterval = null
 var socketUrl = null
 var socketToken = null
+var will_retry = true
 
 const connect = (url, channels, token) => {
   console.log("start to connect socket")
   socketUrl = url
   socketToken = token
+  will_retry = true
 
   wx.connectSocket({
     url: socketUrl,
@@ -22,14 +24,22 @@ const connect = (url, channels, token) => {
     console.log("socket connection closed")
     console.log(res)
 
-    socketRetryInterval = setInterval(() => {
-      console.log("retry to connect...")
-      wx.connectSocket({
-        url: socketUrl,
-        method:"GET"
-      })
-    }, 1000)
+    if (will_retry) {
+      socketRetryInterval = setInterval(() => {
+        console.log("retry to connect...")
+        wx.connectSocket({
+          url: socketUrl,
+          method:"GET"
+        })
+      }, 1000)
+    }
   })
+}
+
+const disconnect = () => {
+  console.log("close socket")
+  will_retry = false
+  wx.closeSocket()
 }
 
 const listen = (channel, fallback) => {
@@ -91,6 +101,7 @@ const subscribe = (channel) => {
 
 module.exports = {
   connect: connect,
+  disconnect: disconnect,
   listen: listen,
   send: send
 }

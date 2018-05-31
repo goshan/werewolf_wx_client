@@ -1,5 +1,6 @@
 const url = require('./url.js')
 const socket = require('./cableSocket.js')
+const app = getApp()
 
 const audio_config = {
   day: {
