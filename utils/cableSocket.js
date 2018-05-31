@@ -42,7 +42,7 @@ const disconnect = () => {
   wx.closeSocket()
 }
 
-const listen = (channel, fallback) => {
+const listen = (fallback_map) => {
   wx.onSocketMessage(res => {
     var data = JSON.parse(res.data)
     // not parse handshake msg
@@ -53,14 +53,14 @@ const listen = (channel, fallback) => {
     }
 
     var res_ch = JSON.parse(data.identifier).channel
-    if (res_ch == channel) {
+    if (Object.keys(fallback_map).includes(res_ch)) {
       if (data.type == "confirm_subscription") {
         console.log("connected socket channel "+res_ch)
       }
       else if (data.message) {
-        console.log("recieved data:")
+        console.log("recieved data from "+res_ch)
         console.log(data.message)
-        fallback(data.message)
+        fallback_map[res_ch](data.message)
       }
     }
   })

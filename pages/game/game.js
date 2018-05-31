@@ -72,31 +72,33 @@ Page({
 
   onShow: function() {
     socket.connect(url.socket(), ["GameChannel"], this.data.token.token)
-    socket.listen("GameChannel", data => {
-      if (data.action == 'alert') {
-        wx.showModal({
-          title: "提示",
-          content: data.msg,
-          showCancel: false
-        })
-      }
-      else if (data.action == 'play') {
-        this.play(data.audio)
-      }
-      else if (data.action == 'show_role') {
-        this.setData({
-          role: trans.role(data.role)
-        })
-        this.showModal("role")
-      }
-      else if (data.action == 'panel') {
-        this.showPanel(data)
-      }
-      else if (data.action == 'dialog') {
-        this.showSkillDialog(data)
-      }
-      else if(data.action == 'update') {
-        this.update(data)
+    socket.listen({
+      GameChannel: data => {
+        if (data.action == 'alert') {
+          wx.showModal({
+            title: "提示",
+            content: data.msg,
+            showCancel: false
+          })
+        }
+        else if (data.action == 'play') {
+          this.play(data.audio)
+        }
+        else if (data.action == 'show_role') {
+          this.setData({
+            role: trans.role(data.role)
+          })
+          this.showModal("role")
+        }
+        else if (data.action == 'panel') {
+          this.showPanel(data)
+        }
+        else if (data.action == 'dialog') {
+          this.showSkillDialog(data)
+        }
+        else if(data.action == 'update') {
+          this.update(data)
+        }
       }
     })
   },
