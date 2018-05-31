@@ -1,12 +1,15 @@
-const request = function(config) {
-  return config.requestProtocol+"://"+config.host+"/wx"
+const app = getApp()
+
+
+const request = function() {
+  return app.globalData.config.requestProtocol+"://"+app.globalData.config.host+"/wx"
 }
 
-const socket = function(config) {
-  return config.socketProtocol+"://"+config.host+"/cable"
+const socket = function() {
+  return app.globalData.config.socketProtocol+"://"+app.globalData.config.host+"/cable"
 }
 
-const image = function(config, url) {
+const image = function(url) {
   if (!url) {
     return null
   }
@@ -14,10 +17,10 @@ const image = function(config, url) {
     return url
   }
   else if(url.startsWith("/")) {
-    return config.requestProtocol+"://"+config.host+"/img"+url
+    return app.globalData.config.requestProtocol+"://"+app.globalData.config.host+"/img"+url
   }
   else {
-    return config.requestProtocol+"://"+config.host+"/img/"+url
+    return app.globalData.config.requestProtocol+"://"+app.globalData.config.host+"/img/"+url
   }
 }
 

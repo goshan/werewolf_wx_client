@@ -71,7 +71,7 @@ Page({
   },
 
   onShow: function() {
-    socket.connect(url.socket(app.config), ["GameChannel"], this.data.token.token)
+    socket.connect(url.socket(), ["GameChannel"], this.data.token.token)
     socket.listen("GameChannel", data => {
       if (data.action == 'alert') {
         wx.showModal({
@@ -139,7 +139,7 @@ Page({
       for (var pos in data.players) {
         data.players[pos].pos = pos
         data.players[pos].name = format.title(data.players[pos].name)
-        data.players[pos].image = url.image(app.config, data.players[pos].image)
+        data.players[pos].image = url.image(data.players[pos].image)
         selected[pos] = false
       }
       this.setData({
@@ -197,7 +197,7 @@ Page({
   checkRule: function() {
     wx.request({
       method: "GET",
-      url: url.request(app.config)+"/rule",
+      url: url.request()+"/rule",
       data: {
         token: this.data.token.token
       },
@@ -325,7 +325,7 @@ Page({
   showSetting: function() {
     wx.request({
       method: "GET",
-      url: url.request(app.config)+"/setting",
+      url: url.request()+"/setting",
       data: {
         token: this.data.token.token
       },
@@ -382,7 +382,7 @@ Page({
 
     wx.request({
       method: "POST",
-      url: url.request(app.config)+"/update_setting",
+      url: url.request()+"/update_setting",
       data: data,
       success: res => {
         console.log(res)

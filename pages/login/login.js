@@ -63,19 +63,27 @@ Page({
 
     if (with_global) {
       app.globalData.userInfo = userInfo
+      // 发送 res.code 到后台换取 openId, sessionKey, unionId
       // update user info in server
       wx.request({
         method: "post",
-        url: url.request(app.config)+"/info",
+        url: url.request()+"/login",
         data: {
-          token: wx.getStorageSync('token').token,
+          code: wx.getStorageSync('login_res_code'),
           name: userInfo.nickName,
           image: userInfo.avatarUrl
         },
         success: res => {
-          if (res.data.msg != "OK") {
+          console.log(res.data)
+          if (res.data.token) {
+            wx.setStorageSync('token', {
+              token: res.data.token,
+              permission: res.data.permission
+            })
+          }
+          else {
             wx.showToast({
-              title: "更新信息失败"
+              title: "服务器通信失败"
             })
           }
         }

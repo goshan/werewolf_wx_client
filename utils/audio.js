@@ -138,7 +138,7 @@ const end = function(key) {
 //private
 
 const setupAudio = function(audioContext, config, loop=false) {
-  audioContext.src = app.config.requestProtocol+"://"+app.config.host+"/audio/"+config.file+".mp3"
+  audioContext.src = app.globalData.config.requestProtocol+"://"+app.globalData.config.host+"/audio/"+config.file+".mp3"
   audioContext.loop = loop
   audioContext.volume = config.volume
   audioContext.obeyMuteSwitch = false
